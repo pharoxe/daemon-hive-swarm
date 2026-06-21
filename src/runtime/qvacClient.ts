@@ -4,6 +4,7 @@ import { Paths } from "expo-file-system";
 import * as FileSystem from "expo-file-system/legacy";
 import { env } from "../config/env";
 import { ensureQvacSdkConfigFile } from "./ensureQvacSdkConfig";
+import { appendInferenceAudit } from "./inferenceAudit";
 import {
   getActiveGpuProfile,
   getPreferredGpuBackend,
@@ -655,6 +656,14 @@ async function resetLoadedModel(model: RuntimeModel, modelId: string) {
     console.log("[DaemonQvac] unload:start", model.source, modelId);
     await unloadModel({ modelId, clearStorage: false });
     console.log("[DaemonQvac] unload:ok", model.source, modelId);
+    void appendInferenceAudit({
+      event: "model_unload",
+      modelId: model.id,
+      modelTitle: model.title,
+      source: model.source,
+      qvacModelInstanceId: modelId,
+      detail: "unloadModel clearStorage=false",
+    });
   } catch (error) {
     console.warn("[DaemonQvac] unload:ignored", model.source, toErrorDetail(error));
   }
@@ -931,6 +940,7 @@ export async function loadQvacModel(
   delegate?: QvacDelegateOptions,
   options?: { forceCpu?: boolean },
 ): Promise<QvacCheckResult> {
+  const loadStartedAt = Date.now();
   try {
     if (!options?.forceCpu && wantsLlamacppGpu(model) && shouldSkipGpuLoad(model.id)) {
       console.log("[DaemonQvac] load:skip-gpu-profile", model.source, "(prior probe: decode on CPU)");
@@ -943,10 +953,21 @@ export async function loadQvacModel(
     const loadedModelId = await getLoadedModelId(model, delegate, forceCpu);
 
     if (loadedModelId) {
+      const cachedDetail = `Loaded model instance: ${loadedModelId}${forceCpu ? " (CPU)" : wantsLlamacppGpu(model) ? " (GPU offload)" : ""}`;
+      void appendInferenceAudit({
+        event: "model_load",
+        modelId: model.id,
+        modelTitle: model.title,
+        source: model.source,
+        loadPath: inferRuntimePathFromLoadDetail(cachedDetail),
+        wallMs: Date.now() - loadStartedAt,
+        qvacModelInstanceId: loadedModelId,
+        detail: `${cachedDetail} (cache hit)`,
+      });
       return {
         ok: true,
         label: model.title,
-        detail: `Loaded model instance: ${loadedModelId}${forceCpu ? " (CPU)" : wantsLlamacppGpu(model) ? " (GPU offload)" : ""}`,
+        detail: cachedDetail,
       };
     }
 
@@ -1015,10 +1036,21 @@ export async function loadQvacModel(
 
     console.log("[DaemonQvac] load:ok", model.source, modelId);
     loadedModelCache.set(loadedModelCacheKey(model, delegate, usedCpuFallback), modelId);
+    const loadDetail = `Loaded model instance: ${modelId}${wantsLlamacppGpu(model) ? (usedCpuFallback ? " (CPU fallback after GPU load failed)" : " (GPU offload)") : ""}${delegate?.providerPublicKey ? ` via Hive provider ${delegate.providerPublicKey.slice(0, 10)}…` : ""}`;
+    void appendInferenceAudit({
+      event: "model_load",
+      modelId: model.id,
+      modelTitle: model.title,
+      source: model.source,
+      loadPath: inferRuntimePathFromLoadDetail(loadDetail),
+      wallMs: Date.now() - loadStartedAt,
+      qvacModelInstanceId: modelId,
+      detail: loadDetail,
+    });
     return {
       ok: true,
       label: model.title,
-      detail: `Loaded model instance: ${modelId}${wantsLlamacppGpu(model) ? (usedCpuFallback ? " (CPU fallback after GPU load failed)" : " (GPU offload)") : ""}${delegate?.providerPublicKey ? ` via Hive provider ${delegate.providerPublicKey.slice(0, 10)}…` : ""}`,
+      detail: loadDetail,
     };
   } catch (error) {
     console.error("[DaemonQvac] load:error", model.source, error);
@@ -1137,6 +1169,24 @@ export async function runQvacProfilerCheck(model: RuntimeModel): Promise<QvacChe
           : 0;
     const summary = profiler.exportSummary?.() ?? "Profiler summary unavailable.";
     profiler.disable?.();
+
+    void appendInferenceAudit({
+      event: "inference",
+      modelId: model.id,
+      modelTitle: model.title,
+      source: model.source,
+      loadPath: inferRuntimePathFromLoadDetail(loadResult.detail),
+      wallMs: inferMs,
+      qvacModelInstanceId: modelId,
+      promptSystem: profilerPrompt.system,
+      promptUser: profilerPrompt.user,
+      generatedTokens: stats?.generatedTokens ?? estOutTok,
+      ttftMs: stats?.timeToFirstToken,
+      tokensPerSec: decodeTokPerSec,
+      decodeBackend: stats?.backendDevice,
+      mode: outcome.mode,
+      detail: "Profile Inference",
+    });
 
     return {
       ok: true,
