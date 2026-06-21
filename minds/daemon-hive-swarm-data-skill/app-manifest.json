@@ -1,0 +1,19 @@
+{
+  "app": "daemon-hive-swarm",
+  "displayName": "Daemon Hive Swarm",
+  "auth": {
+    "type": "apiKey",
+    "header": "Authorization",
+    "format": "Bearer ${apiKey}"
+  },
+  "baseUrl": "${baseUrl}",
+  "endpoints": {
+    "datasets": "/v1/hive/datasets",
+    "summary": "/v1/hive/datasets/{datasetId}/summary",
+    "benchmark": "/v1/mantle/benchmark/prepare"
+  },
+  "dataPolicy": {
+    "allowed": ["dataset manifests", "aggregate summaries", "content hashes", "benchmark metadata"],
+    "blocked": ["raw sensor streams", "exact GPS", "IP addresses", "device serials", "medical report text", "names", "dates of birth", "private keys"]
+  }
+}

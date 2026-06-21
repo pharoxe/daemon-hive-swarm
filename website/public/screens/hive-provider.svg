@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 780" fill="none">
+  <rect width="360" height="780" fill="#0b0b0a"/>
+  <rect x="16" y="48" width="328" height="716" rx="12" fill="#151311" stroke="#3a322c"/>
+  <text x="32" y="90" fill="#c26a3a" font-family="monospace" font-size="11">DELEGATED INFERENCE</text>
+  <rect x="32" y="130" width="296" height="88" rx="2" fill="#211d1a" stroke="#c26a3a" stroke-opacity="0.35"/>
+  <text x="48" y="162" fill="#e7e0d4" font-family="sans-serif" font-size="13">Advertise QVAC provider</text>
+  <text x="48" y="186" fill="#8ef0b8" font-family="monospace" font-size="10">PROVIDER ON</text>
+</svg>

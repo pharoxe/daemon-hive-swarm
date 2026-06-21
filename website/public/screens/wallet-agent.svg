@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 780" fill="none">
+  <rect width="360" height="780" fill="#0b0b0a"/>
+  <rect x="16" y="48" width="328" height="716" rx="12" fill="#151311" stroke="#3a322c"/>
+  <text x="32" y="90" fill="#c26a3a" font-family="monospace" font-size="11">AGENT WALLET</text>
+  <text x="32" y="140" fill="#e7e0d4" font-family="sans-serif" font-size="22">0.84 SOL</text>
+  <text x="32" y="168" fill="#9d9287" font-family="sans-serif" font-size="14">4.20 USDC</text>
+  <rect x="32" y="200" width="296" height="48" rx="2" fill="#211d1a" stroke="#3a322c"/>
+  <text x="48" y="230" fill="#c6b19b" font-family="monospace" font-size="11">Fund agent for API calls</text>
+</svg>

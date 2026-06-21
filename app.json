@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "Daemon Swarm",
+    "slug": "daemon-hive-swarm",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "daemon",
+    "userInterfaceStyle": "dark",
+    "icon": "./brand/daemon-icon-small.png",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "backgroundColor": "#080807",
+      "resizeMode": "contain"
+    },
+    "assetBundlePatterns": [
+      "assets/**/*"
+    ],
+    "ios": {
+      "supportsTablet": false
+    },
+    "android": {
+      "package": "io.daemon.mobile",
+      "icon": "./brand/daemon-icon-small.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./brand/daemon-icon-small.png",
+        "backgroundColor": "#080807"
+      },
+      "permissions": [
+        "INTERNET",
+        "POST_NOTIFICATIONS",
+        "PACKAGE_USAGE_STATS",
+        "READ_CALENDAR",
+        "WRITE_CALENDAR",
+        "RECORD_AUDIO"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 29
+          }
+        }
+      ],
+      "./plugins/withVkLoaderLayerDisable.js",
+      "./plugins/withExpoCalendarR8Rule.js",
+      "./plugins/withQvacOpenClOnlyGpu.js",
+      "@qvac/sdk/expo-plugin",
+      "expo-font",
+      "expo-audio",
+      "expo-stream-audio"
+    ]
+  }
+}

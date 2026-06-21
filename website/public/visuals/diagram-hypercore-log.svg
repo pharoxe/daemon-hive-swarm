@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" fill="none">
+  <rect width="720" height="200" fill="#151311"/>
+  <rect x="30" y="70" width="120" height="60" rx="4" stroke="#c26a3a" stroke-width="2" fill="#0b0b0a"/>
+  <text x="45" y="105" fill="#e7e0d4" font-family="monospace" font-size="12">On-device</text>
+  <path class="diagram-flow" d="M160 100 H240" stroke="#8f3f24" stroke-width="2" stroke-dasharray="6 4"/>
+  <rect x="250" y="70" width="120" height="60" rx="4" stroke="#c26a3a" stroke-width="2" fill="#211d1a"/>
+  <text x="268" y="105" fill="#c26a3a" font-family="monospace" font-size="12">Anonymize</text>
+  <path class="diagram-flow" d="M380 100 H460" stroke="#8f3f24" stroke-width="2" stroke-dasharray="6 4"/>
+  <rect x="470" y="70" width="120" height="60" rx="4" stroke="#8ef0b8" stroke-width="2" fill="#0b0b0a"/>
+  <text x="485" y="105" fill="#8ef0b8" font-family="monospace" font-size="12">Hypercore</text>
+  <path class="diagram-flow" d="M600 100 H660" stroke="#8f3f24" stroke-width="2" stroke-dasharray="6 4"/>
+  <rect x="670" y="70" width="30" height="60" rx="4" stroke="#3a322c" stroke-width="2" fill="#151311"/>
+</svg>

@@ -1,0 +1,13 @@
+# Mali Vulkan tiling patch (applied in vendor/qvac-fabric-llm.cpp)
+#
+# Goal: enable Adreno-style dynamic matmul tiling on ARM Mali Vulkan drivers and
+# clamp tile buffer size to 64 MiB to reduce TDR / queue timeout risk.
+#
+# Changes in ggml/src/ggml-vulkan/ggml-vulkan.cpp:
+# 1. vk_device_architecture::ARM_MALI for VK_VENDOR_ID_ARM
+# 2. tiling_threshold set for ARM_MALI (min with 64 MiB)
+# 3. split_k disabled for ARM_MALI (same as Adreno)
+# 4. do_tiling enabled for ARM_MALI matmul path
+#
+# Build: npm run qvac:build-mali-native
+# Install: QVAC_NATIVE_PREBUILD_PATH=vendor/prebuilds/android-arm64/qvac__llm-llamacpp

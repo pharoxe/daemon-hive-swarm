@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 780" fill="none">
+  <rect width="360" height="780" fill="#0b0b0a"/>
+  <rect x="16" y="48" width="328" height="716" rx="12" fill="#151311" stroke="#3a322c"/>
+  <text x="32" y="90" fill="#c26a3a" font-family="monospace" font-size="11">MEDICAL SHARE</text>
+  <text x="32" y="130" fill="#9d9287" font-family="sans-serif" font-size="12">De-identify before Hypercore write</text>
+  <rect x="32" y="160" width="296" height="64" rx="2" fill="#211d1a" stroke="#3a322c"/>
+  <text x="48" y="198" fill="#e7e0d4" font-family="sans-serif" font-size="12">Names, IDs, dates removed</text>
+  <rect x="32" y="250" width="296" height="48" rx="2" fill="#c26a3a"/>
+  <text x="100" y="280" fill="#0b0b0a" font-family="monospace" font-size="12">SHARE SUMMARY</text>
+</svg>

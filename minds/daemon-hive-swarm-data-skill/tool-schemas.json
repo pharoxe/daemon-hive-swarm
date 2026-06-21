@@ -1,0 +1,77 @@
+{
+  "tools": [
+    {
+      "name": "list_datasets",
+      "description": "List Daemon Hive datasets currently advertised by the P2P swarm, including fields and anonymization rules.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": ["Sensors", "Device", "Medical", "Any"],
+            "default": "Any"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "datasets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "name": { "type": "string" },
+                "fields": { "type": "array", "items": { "type": "string" } },
+                "anonymization": { "type": "string" },
+                "cadence": { "type": "string" }
+              },
+              "required": ["id", "name", "fields", "anonymization", "cadence"]
+            }
+          }
+        },
+        "required": ["datasets"]
+      }
+    },
+    {
+      "name": "query_dataset_summary",
+      "description": "Fetch an anonymized aggregate summary for one dataset. This never returns raw rows or medical free text.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "datasetId": { "type": "string" },
+          "timeWindow": {
+            "type": "string",
+            "description": "Coarse window such as 24h, 7d, or demo."
+          },
+          "purpose": {
+            "type": "string",
+            "description": "Why the Mind needs the aggregate summary."
+          }
+        },
+        "required": ["datasetId", "timeWindow", "purpose"]
+      }
+    },
+    {
+      "name": "prepare_mantle_benchmark",
+      "description": "Prepare a Mantle benchmark event from hashes of the Mind decision and summarized outcome.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "decisionHash": { "type": "string" },
+          "outcomeHash": { "type": "string" },
+          "decisionType": {
+            "type": "string",
+            "enum": ["dataset", "tool", "chat", "inference"]
+          },
+          "datasetIds": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["decisionHash", "outcomeHash", "decisionType"]
+      }
+    }
+  ]
+}

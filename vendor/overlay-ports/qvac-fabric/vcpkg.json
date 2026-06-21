@@ -1,0 +1,40 @@
+{
+  "name": "qvac-fabric",
+  "version": "8189.0.2",
+  "port-version": 1,
+  "description": "LLM inference in C/C++ (Daemon Mali overlay — local patched source)",
+  "homepage": "https://github.com/tetherto/qvac-fabric-llm.cpp",
+  "license": "MIT",
+  "dependencies": [
+    {
+      "name": "opencl",
+      "platform": "android"
+    },
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "vcpkg-cmake-config",
+      "host": true
+    }
+  ],
+  "default-features": [
+    "gpu-backends",
+    "llama"
+  ],
+  "features": {
+    "force-profiler": {
+      "description": "Force vk performance logging in ggml"
+    },
+    "gpu-backends": {
+      "description": "Build GPU backends (Vulkan/OpenCL on Android)."
+    },
+    "kleidiai": {
+      "description": "Enable ARM KleidiAI optimized kernels on Android."
+    },
+    "llama": {
+      "description": "Build llama components."
+    }
+  }
+}
